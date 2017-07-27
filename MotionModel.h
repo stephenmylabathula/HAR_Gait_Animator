@@ -5,11 +5,13 @@
  */
 
 //TODO: change any vectors to arrays if possible
+//TODO: check if skeleton_structure.tree.children is one or zero based
 
 #ifndef MOTIONMODEL_H_
 #define MOTIONMODEL_H_
 #include <string>
 #include <vector>
+#include <Eigen/Dense>
 
 struct JointNode {
   std::string name;
@@ -18,7 +20,8 @@ struct JointNode {
   std::vector<float> orientation;
   float axis[3];
   std::string axis_order;
-  //TODO: add eigen matrix for C and Cinv
+  Eigen::MatrixXd c;
+  Eigen::MatrixXd c_inv;
   std::vector<std::string> channels;
   float bodymass;
   float confmass;
@@ -27,7 +30,7 @@ struct JointNode {
   int rotind[3];
   int posind[3];
   std::vector<int> children;
-  std::vector<float> limits;
+  std::vector< std::vector<float> > limits;
 };
 
 struct SkeletonStructure {
@@ -55,7 +58,7 @@ class MotionModel {
  private:
   float frame_length;
   SkeletonStructure skeleton_structure;
-  std::vector<std::vector<float>> channels;
+  std::vector< std::vector<float> > channels;
   MotionPhases motion_phases;
   std::string name;
 
@@ -67,7 +70,9 @@ class MotionModel {
   ~MotionModel();
 
   // load data from CSV
-  void load(std::string filePath);
+  void load(std::string file_path);
+
+  void print(void);
 };
 
 #endif  // MOTIONMODEL_H_
