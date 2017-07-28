@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../MotionModel.cpp \
+../SkeletonStructure.cpp \
 ../main.cpp 
 
 OBJS += \
 ./MotionModel.o \
+./SkeletonStructure.o \
 ./main.o 
 
 CPP_DEPS += \
 ./MotionModel.d \
+./SkeletonStructure.d \
 ./main.d 
 
 
