@@ -42,7 +42,7 @@ class MotionModel {
   std::string name;
 
  public:
-  // constructors
+  // constructor
   MotionModel();
 
   // destructor

@@ -37,9 +37,9 @@ struct XYZNode {
 
 class SkeletonStructure {
  private:
-  Eigen::Matrix3f RotationMatrix(float xangle, float yangle, float zangle, std::string order);
   std::vector<XYZNode> xyz_node_list;
-  std::vector<XYZNode> GetChildXyz(std::vector<XYZNode> xyz_node_list, int ind, std::vector< std::vector<float> > channels);
+  void GetChildXyz(int ind, std::vector< std::vector<float> > channels);
+  Eigen::Matrix3f RotationMatrix(float xangle, float yangle, float zangle, std::string order);
  public:
   int length;
   int mass;
@@ -59,6 +59,7 @@ class SkeletonStructure {
   // destructor
   ~SkeletonStructure();
 
+  // method to compute skeleton xyz
   std::vector< std::vector<float> > ComputeSkeletonXYZPose(std::vector< std::vector<float> > channels);
 };
 

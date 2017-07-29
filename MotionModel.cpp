@@ -15,6 +15,7 @@
 MotionModel::MotionModel() {
   frame_length = 0.0f;
   name = "motion model";
+  // instantiate the skeleton structure object
   skeleton_structure = SkeletonStructure();
 }
 
@@ -27,7 +28,7 @@ MotionModel::~MotionModel() {
  * 1. Load and parse the text file.
  * 2. Initialize the frame length member.
  * 3. Initialize the skeleton structure member.
- * 4. Initialie the channels matrix.
+ * 4. Initialize the channels matrix.
  * 5. Initialize the motion phases.
  */
 void MotionModel::load(std::string file_path) {
@@ -132,20 +133,20 @@ void MotionModel::load(std::string file_path) {
     else
       current_joint_node.confmass = 0.0;
     // set joint parent
-    current_joint_node.parent = itr->GetObject()["parent"].GetInt() - 1;
+    current_joint_node.parent = itr->GetObject()["parent"].GetInt() - 1;  // subtract one for zero basis
     // set joint order
     if (itr->GetObject()["order"].IsString())
       current_joint_node.order = itr->GetObject()["order"].GetString();
     else
       current_joint_node.order = "";
     // set joint rotind
-    current_joint_node.rotind[0] = itr->GetObject()["rotInd"][0].GetInt() - 1;
-    current_joint_node.rotind[1] = itr->GetObject()["rotInd"][1].GetInt() - 1;
-    current_joint_node.rotind[2] = itr->GetObject()["rotInd"][2].GetInt() - 1;
+    current_joint_node.rotind[0] = itr->GetObject()["rotInd"][0].GetInt() - 1;  // subtract one for zero basis
+    current_joint_node.rotind[1] = itr->GetObject()["rotInd"][1].GetInt() - 1;  // subtract one for zero basis
+    current_joint_node.rotind[2] = itr->GetObject()["rotInd"][2].GetInt() - 1;  // subtract one for zero basis
     // set joint posind
-    current_joint_node.posind[0] = itr->GetObject()["posInd"][0].GetInt() - 1;
-    current_joint_node.posind[1] = itr->GetObject()["posInd"][1].GetInt() - 1;
-    current_joint_node.posind[2] = itr->GetObject()["posInd"][2].GetInt() - 1;
+    current_joint_node.posind[0] = itr->GetObject()["posInd"][0].GetInt() - 1;  // subtract one for zero basis
+    current_joint_node.posind[1] = itr->GetObject()["posInd"][1].GetInt() - 1;  // subtract one for zero basis
+    current_joint_node.posind[2] = itr->GetObject()["posInd"][2].GetInt() - 1;  // subtract one for zero basis
     // set joint children
     if (itr->GetObject()["children"].IsArray())
       for (rapidjson::Value::ConstValueIterator itr_children = itr->GetObject()["children"].Begin(); itr_children != itr->GetObject()["children"].End(); ++itr_children){
@@ -209,14 +210,14 @@ void MotionModel::load(std::string file_path) {
 void MotionModel::print(){
   std::cout << "XYZ: " << std::endl;
   std::vector< std::vector<float> > xyz = this->skeleton_structure.ComputeSkeletonXYZPose(this->channels);
-  for (int i = 0; i < xyz.size(); i++){
-    for (int j = 0; j < 3; j++){
+  for (unsigned int i = 0; i < xyz.size(); i++){
+    for (unsigned int j = 0; j < 3; j++){
       std::cout << xyz[i][j] << " ";
     }
     std::cout << std::endl;
   }
-  /*std::cout << "Frame Length: " << this->frame_length << std::endl << std::endl;
 
+  std::cout << "Frame Length: " << this->frame_length << std::endl << std::endl;
   std::cout << "Skeleton Structure: " << std::endl;
   std::cout << "   - Length: " << this->skeleton_structure.length << std::endl;
   std::cout << "   - Mass: " << this->skeleton_structure.mass << std::endl;
@@ -255,7 +256,7 @@ void MotionModel::print(){
   std::cout << "   - Indices: [ ";
   for (unsigned int i = 0; i < this->motion_phases.indices.size(); i++)
     std::cout << this->motion_phases.indices[i] << " ";
-  std::cout << "]" << std::endl;*/
+  std::cout << "]" << std::endl;
 
 }
 
